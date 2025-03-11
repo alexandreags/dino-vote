@@ -1,0 +1,39 @@
+{
+  "name": "dino-vote-app",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "A Dino voting app that fetches dinosaur images from Pexels and allows users to vote on their favorites.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "build": "prisma generate"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.749.0",
+    "@prisma/client": "^6.3.1",
+    "axios": "^1.7.9",
+    "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.7",
+    "dotenv-expand": "^12.0.1",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.12.0",
+    "prisma": "^6.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "keywords": [
+    "dinosaur",
+    "voting",
+    "pexels",
+    "s3",
+    "mysql",
+    "prisma"
+  ],
+  "author": "alexandre.ags@gmail.com",
+  "license": "MIT"
+}

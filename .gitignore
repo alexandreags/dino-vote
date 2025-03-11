@@ -1,3 +1,5 @@
+*Docker/data/*
+*Docker/sql/*
 # Logs
 logs
 *.log

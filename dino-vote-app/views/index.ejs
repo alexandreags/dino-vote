@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Vote</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Dino Vote</h1>
+    <form action="/dinosaurs/fetch-images" method="POST">
+        <button type="submit">Fetch New Images</button>
+    </form>
+    <div class="dino-container">
+        <% dinosaurs.forEach(dino => { %>
+            <div class="dino-card">
+                <img src="<%= dino.url %>" alt="<%= dino.name %>">
+                <h2><%= dino.name %></h2>
+                <p>Votes: <%= dino.votes %></p>
+                <form action="/dinosaurs/vote" method="POST">
+                    <input type="hidden" name="id" value="<%= dino.id %>">
+                    <button type="submit">Vote</button>
+                </form>
+            </div>
+        <% }) %>
+    </div>
+    <script src="/js/scripts.js"></script>i
+</body>
+</html>

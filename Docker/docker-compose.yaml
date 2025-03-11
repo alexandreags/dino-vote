@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql_container
+    env_file: "../.env"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+  minio:
+    image: docker.io/bitnami/minio:2022
+    container_name: minio_container    
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - minio_data:/data
+    env_file: "../.env"
+
+volumes:
+  db_data:
+  minio_data:
+    driver: local
+    
