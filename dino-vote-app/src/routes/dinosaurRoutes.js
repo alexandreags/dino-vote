@@ -8,5 +8,6 @@ router.post('/vote', dinosaurController.voteDinosaur);
 router.post('/fetch-images', dinosaurController.fetchNewImages);
 router.get('/:id', dinosaurController.getDinosaurById);
 router.delete('/:id', dinosaurController.deleteDinosaur);
+router.get('/voted', dinosaurController.getUserVotes);
 
 module.exports = router;

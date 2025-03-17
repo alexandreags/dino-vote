@@ -5,25 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dino Vote</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .content {
+            margin-left: 220px; /* Adjust this value based on the width of the sidebar */
+            padding: 20px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+        .modal-content, #caption {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @keyframes zoom {
+            from {transform: scale(0)}
+            to {transform: scale(1)}
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .error-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+        }
+        .error-modal-content h2 {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h1>Dino Vote</h1>
-    <form action="/dinosaurs/fetch-images" method="POST">
-        <button type="submit">Fetch New Images</button>
-    </form>
-    <div class="dino-container">
-        <% dinosaurs.forEach(dino => { %>
-            <div class="dino-card">
-                <img src="<%= dino.url %>" alt="<%= dino.name %>">
-                <h2><%= dino.name %></h2>
-                <p>Votes: <%= dino.votes %></p>
-                <form action="/dinosaurs/vote" method="POST">
-                    <input type="hidden" name="id" value="<%= dino.id %>">
-                    <button type="submit">Vote</button>
-                </form>
-            </div>
-        <% }) %>
+    <%- include('partials/_sidebar') %> <!-- Include the sidebar partial -->
+    <div class="content">
+        <h1 class=>Dino Vote</h1>
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+        <div class="button-container">
+        <form id="fetch-form" action="/dinosaurs/fetch-images" method="POST">
+            <button type="submit">
+                <i class="fas fa-sync"></i>
+                Fetch New Images
+            </button>
+        </form>
+        </div>
+        <div class="dino-container">
+            <% dinosaurs.forEach(dino => { %>
+                <div class="dino-card img">
+                    <img src="<%= dino.url %>" alt="<%= dino.name %>" class="dino-imagem" onclick="openModal(this)">
+                    <h2><%= dino.name %></h2>
+                    <div class="button-container">
+                    <form class="vote-form" data-dino-id="<%= dino.id %>">
+                        <input type="hidden" name="id" value="<%= dino.id %>">
+                        <button type="submit" class="vote-button">
+                            <i class="fas fa-heart"></i>
+                            <span class="vote-count"><%= dino.votes %></span> votes
+                        </button>
+                    </form>
+                    
+                    </div>
+                </div>
+            <% }) %>
+        </div>
     </div>
-    <script src="/js/scripts.js"></script>i
+    <!-- The Modal for Images -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+    </div>
+    <!-- The Modal for Errors -->
+    <div id="errorModal" class="modal">
+        <div class="error-modal-content">
+            <span class="close" onclick="closeErrorModal()">&times;</span>
+            <h2>Error</h2>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+    <script src="/js/scripts.js"></script>
+    <script>
+        // Function to open the Image modal
+        function openModal(image) {
+            var modal = document.getElementById("myModal");
+            var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
+
+            modal.style.display = "block";
+            modalImg.src = image.src;
+            captionText.innerHTML = image.alt;
+        }
+
+        // Function to close the Image modal
+        function closeModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        
+        // Function to open the error modal
+        function openErrorModal(message) {
+            var modal = document.getElementById("errorModal");
+            var errorMessage = document.getElementById("errorMessage");
+
+            errorMessage.innerHTML = message;
+            modal.style.display = "block";
+        }
+        // Function to close the error modal
+        function closeErrorModal() {
+            var modal = document.getElementById("errorModal");
+            modal.style.display = "none";
+        }
+
+        }
+    </script>
 </body>
 </html>
+
+
+

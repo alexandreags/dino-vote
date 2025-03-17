@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .content {
+            margin-left: 220px; /* Adjust this value based on the width of the sidebar */
+            padding: 20px;
+        }
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .stats-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .stats-card h2 {
+            margin-top: 0;
+        }
+        .dino-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .dino-list li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/_sidebar') %>
+    <div class="content">
+        <h1>Statistics</h1>
+        <div class="stats-container">
+            <div class="stats-card">
+                <h2>Total Votes</h2>
+                <p><%= totalVotes %></p>
+            </div>
+            <div class="stats-card">
+                <h2>Top 10 Dinosaurs Voted</h2>
+                <br>
+                <ul class="dino-list">
+                    <% topDinos.forEach(dino => { %>
+                        <li><%= dino.name %> - <%= dino.votes %> votes</li>
+                    <% }) %>
+                </ul>
+            </div>
+            <div class="stats-card">
+                <h2>Average Votes Per User</h2>
+                <p><%= averageVotesPerUser.toFixed(2) %></p>
+            </div>
+            <div class="stats-card">
+                <h2>Votes Per Hour</h2>
+                <canvas id="votesPerHourChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        //console.log('Votes Per Hour Data:', <%= JSON.stringify(votesPerHour) %>);
+        const votesPerHourData = <%= JSON.stringify(votesPerHour) %>;
+
+        const labels = votesPerHourData.map(data => data.hour);
+        const data = votesPerHourData.map(data => data.count);
+
+        const ctx = document.getElementById('votesPerHourChart').getContext('2d');
+        const votesPerHourChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Votes Per Hour',
+                    data: data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'hour'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<div class="sidebar">
+    <nav>
+        <a href="/"><i class="fas fa-home"></i>Home</a>
+        <% if (user) { %>
+            <span>Welcome, <%= user.username %>!</span>
+            <a href="/user/voted"><i class="fas fa-list"></i> Voted Dinosaurs</a>
+            <a href="/user/statistics"><i class="fas fa-chart-line"></i> Dinosaur Statiscs</a>
+            <a href="/user/serverinfo"><i class="fas fa-server"></i> Infra Details</a>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        <% } else { %>
+            <a href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
+        <% } %>
+    </nav>
+</div>
+<style>
+    .sidebar {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        width: 200px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .sidebar nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .sidebar nav a {
+        color: #fff;
+        margin: 10px 0;
+        text-decoration: none;
+    }
+    .sidebar nav a:hover {
+        text-decoration: underline;
+    }
+    .sidebar nav span {
+        margin-bottom: 20px;
+    }
+</style>
